@@ -44,7 +44,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+int dir = 0;
+int duty = 30;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -55,14 +56,21 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+int flag = 0;
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	 GPIO_PinState pb12_state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12);
+	 if (GPIO_Pin == GPIO_PIN_12)   
+		{    
+			HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+			if(dir==0)
+				dir=1;
+			else
+				dir = 0;
+    }
+		motor_go_work(dir, duty);
+}
 
-	void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-	{
-		if(GPIO_Pin == GPIO_PIN_12)
-		{
-			motor_stop();
-		}
-	}
 
 /* USER CODE END 0 */
 
@@ -100,8 +108,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	
 	tb6612_Init(50);
-	motor_go_work(0, 30);
-
+	motor_go_work(0, duty);
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
 
   /* USER CODE END 2 */
 
@@ -109,18 +117,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		/*GPIO_PinState pb12_state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12);
-		if(pb12_state == GPIO_PIN_SET)
-		{	
-			
-			motor_go_work(dir, duty);
-			//continue;
-		}
-		else
-		{
-			motor_stop();
-			//continue;
-		}*/
 		
     /* USER CODE END WHILE */
 

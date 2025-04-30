@@ -57,6 +57,7 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 int flag = 0;
+/*
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 	 GPIO_PinState pb12_state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12);
@@ -70,7 +71,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     }
 		motor_go_work(dir, duty);
 }
-
+*/
 
 /* USER CODE END 0 */
 
@@ -108,7 +109,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	
 	tb6612_Init(50);
-	motor_go_work(0, duty);
+	motor_go_work(0, 80);
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
 
   /* USER CODE END 2 */
